@@ -1,0 +1,23 @@
+# Definindo variáveis para os parâmetros
+$VMName = "ubuntu01"
+$VHDPath = "c:\vms\ubuntu01\ubuntu01.vhdx"
+$VMPath = "c:\vms\ubuntu01"
+$SwitchName = "vmob"
+$VMGeneration = 1
+$DiskSizeGB = 50
+$ISOPath = "C:\Users\Administrator\Downloads\ubuntu-22.04.4-live-server-amd64.iso"
+
+# Convertendo o tamanho do disco para bytes
+$DiskSizeBytes = $DiskSizeGB * 1GB
+
+# Criando uma nova máquina virtual
+New-VM -Name $VMName -Path $VMPath -NewVHDPath $VHDPath -NewVHDSizeBytes $DiskSizeBytes -Generation $VMGeneration
+
+# Adicionando um controlador de DVD para a VM
+Add-VMDvdDrive -VMName $VMName -Path $ISOPath
+
+# Configurando a VM para usar o vSwitch local
+Add-VMNetworkAdapter -VMName $VMName -SwitchName $SwitchName
+
+# Iniciando a VM
+Start-VM -Name $VMName
