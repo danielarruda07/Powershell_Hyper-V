@@ -21,3 +21,4 @@ Add-VMNetworkAdapter -VMName $VMName -SwitchName $SwitchName
 
 # Iniciando a VM
 Start-VM -Name $VMName
+ok
