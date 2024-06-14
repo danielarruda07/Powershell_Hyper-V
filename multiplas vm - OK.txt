@@ -1,0 +1,26 @@
+# Define variáveis
+$VMNames = @("vm1", "vm2", "vm3", "vm4", "vm5")
+$VMSwitch = "interno"
+$VMPath = "C:\Hyper-V\VHDs"
+$ISOPath = "C:\Hyper-V\ISOs\ubuntu-20.04.2-live-server-amd64.iso"
+$VHDSize = 20GB
+$MemoryStartupBytes = 2GB
+$ProcessorCount = 2
+
+# Função para criar uma nova VM
+function New-VMWithConfig {
+    param (
+        [string]$VMName
+    )
+
+    New-VM -Name $VMName -MemoryStartupBytes $MemoryStartupBytes -SwitchName $VMSwitch -Generation 2 -NewVHDPath "$VMPath\$VMName.vhdx" -NewVHDSizeBytes $VHDSize
+    Set-VMProcessor -VMName $VMName -Count $ProcessorCount
+    Add-VMDvdDrive -VMName $VMName -Path $ISOPath
+    Set-VMFirmware -VMName $VMName -FirstBootDevice $null
+    Start-VM -Name $VMName
+}
+
+# Cria VMs
+foreach ($VMName in $VMNames) {
+    New-VMWithConfig -VMName $VMName
+}
