@@ -39,4 +39,4 @@ for ($i = 1; $i -le $vmCount; $i++) {
     Write-Host "VM $vmName criada e configurada com sucesso."
 }
 
-Write-Host "Todas as VMs foram criadas e configuradas." ...
+Write-Host "Todas as VMs foram criadas e configuradas."
